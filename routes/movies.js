@@ -93,7 +93,25 @@ function moviesApi(app) {
         } catch (error) {
             next(error);
         }
-    }); 
+    });
+
+    // METODO PATCH PARA ACTUALIZAR LA PROPIEDAD DE UN ELEMENTO
+    router.patch("/:movieId", async function(req, res, next){
+        const { movieId } = req.params;
+        const { body: movie } = req;
+        try {
+            const updateMovieId = await moviesService.updateMovie({ movieId, movie });
+
+            res.status(200).json({
+                data: updateMovieId,
+                message: 'movie property updated'
+            });
+
+
+        } catch (error) {
+            next(error);
+        }
+    });
 }
 
 module.exports = moviesApi;
