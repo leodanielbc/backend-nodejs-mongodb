@@ -13,7 +13,10 @@ function moviesApi(app) {
         const { tags } = req.query; // tipo de parametro1: (query) se pone el ? "nombredelquery" y se concatena "tags"
 
         try {
-            const movies = await moviesService.getMovies({ tags })
+            const movies = await moviesService.getMovies({ tags });
+
+            // ejemplo de un error
+            //throw new Error('Error getting movies');
 
             res.status(200).json({
                 data: movies,
