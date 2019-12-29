@@ -4,6 +4,10 @@ const app = express();
 const { config } = require('./config/index');
 
 const moviesApi = require('./routes/movies.js'); // es una funcion
+
+// middleware body parser
+app.use(express.json()); // esto va a permitir que los datos de tipo json sean interpretados (POST)
+
 moviesApi(app);
 
 app.listen(config.port, ()=>{

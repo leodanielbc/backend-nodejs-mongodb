@@ -30,7 +30,7 @@ function moviesApi(app) {
     router.get("/:movieId", async function(req, res, next){ // tipo de parametro2: le enviamos el parametro a traves de la URL
         const { movieId } = req.params;
         try {
-            const movie = await Promise.resolve({ movieId });
+            const movie = await moviesService.getMovie({ movieId });
 
             res.status(200).json({
                 data: movie,
