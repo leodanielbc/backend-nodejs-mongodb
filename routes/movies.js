@@ -1,6 +1,7 @@
 const express = require('express');
 const MoviesService = require('../services/movies');
 
+const joi = require('@hapi/joi');
 // reglas de validacion
 const {
     movieIdSchema,
@@ -41,7 +42,7 @@ function moviesApi(app) {
     // METODO GET CON ID
     router.get(
         "/:movieId", // tipo de parametro2: le enviamos el parametro a traves de la URL
-        validationHandler({ movieId: movieIdSchema }, 'params'),
+        validationHandler(joi.object({ movieId: movieIdSchema }), 'params'),
         async function (req, res, next) {
             const { movieId } = req.params;
             try {
@@ -81,7 +82,7 @@ function moviesApi(app) {
     // METODO PUT PARA ACTUALIZAR UN ELEMENTO
     router.put(
         "/:movieId",
-        validationHandler({ movieId: movieIdSchema }, 'params'),
+        validationHandler(joi.object({ movieId: movieIdSchema }), 'params'),
         validationHandler(updateMovieSchema),
         async function (req, res, next) {
             const { movieId } = req.params;
@@ -103,7 +104,7 @@ function moviesApi(app) {
     // METODO DELETE PARA ELIMINAR UN ELEMENTO
     router.delete(
         "/:movieId",
-        validationHandler({ movieId: movieIdSchema }, 'params'),
+        validationHandler(joi.object({ movieId: movieIdSchema }), 'params'),
         async function (req, res, next) {
             const { movieId } = req.params;
             try {
