@@ -11,6 +11,9 @@ const {
 
 const validationHandler = require('../utils/middleware/validationHandler');
 
+const cacheResponse = require('../utils/cacheResponse');
+const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../utils/time');
+
 function moviesApi(app) {
     const router = express.Router();
     app.use("/api/movies", router); // "/api/movies" => es el home de la aplicacion
@@ -20,6 +23,9 @@ function moviesApi(app) {
 
     // con "/" hacemos referencia al home definido
     router.get("/", async function (req, res, next) {
+
+        cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
+
         const { tags } = req.query; // tipo de parametro1: (query) se pone el ? "nombredelquery" y se concatena "tags"
 
         try {
@@ -44,6 +50,7 @@ function moviesApi(app) {
         "/:movieId", // tipo de parametro2: le enviamos el parametro a traves de la URL
         validationHandler(joi.object({ movieId: movieIdSchema }), 'params'),
         async function (req, res, next) {
+            cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
             const { movieId } = req.params;
             try {
                 const movie = await moviesService.getMovie({ movieId });
